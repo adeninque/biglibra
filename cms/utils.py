@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 
 
 menu = [
-  {'url': 'home', 'name': 'Books'},
-  {'url': 'home', 'name': 'Customers'}
+  {'url': 'cms_home', 'name': 'Books'},
+  {'url': 'cms_home', 'name': 'Customers'}
 ]
 
 class StuffReqiredMixin(LoginRequiredMixin, UserPassesTestMixin):
