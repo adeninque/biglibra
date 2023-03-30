@@ -8,6 +8,7 @@ menu = [
   {'url': 'home', 'name': 'Home'},
   {'url': 'home', 'name': 'Home'},
   {'url': 'home', 'name': 'Home'},
+  {'url': 'home', 'name': 'Add'},
 ]
 
 class StuffReqiredMixin(LoginRequiredMixin, UserPassesTestMixin):
