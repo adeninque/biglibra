@@ -1,21 +1,18 @@
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.contrib.auth.models import Group
 
 
 menu = [
-  {'url': 'home', 'name': 'Home'},
-  {'url': 'home', 'name': 'Home'},
-  {'url': 'home', 'name': 'Home'},
-  {'url': 'home', 'name': 'Add'},
+  {'url': 'home', 'name': 'Books'},
+  {'url': 'home', 'name': 'Customers'}
 ]
 
 class StuffReqiredMixin(LoginRequiredMixin, UserPassesTestMixin):
   login_url = reverse_lazy('home')
 
   def test_func(self) -> bool:
-    return self.request.user.groups.filter(name = 'stuff').exists() or self.request.user.is_superuser
+    return self.request.user.is_staff or self.request.user.is_superuser
 
   def handle_no_permission(self) -> HttpResponseRedirect:
     return HttpResponseRedirect(self.login_url)
