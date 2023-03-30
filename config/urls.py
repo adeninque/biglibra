@@ -20,6 +20,7 @@ from .settings import MEDIA_ROOT, MEDIA_URL, DEBUG
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('cms', include('cms.urls'))
 ]
 
 if DEBUG:
