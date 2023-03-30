@@ -14,10 +14,8 @@ class StuffReqiredMixin(LoginRequiredMixin, UserPassesTestMixin):
   login_url = reverse_lazy('home')
 
   def test_func(self) -> bool:
-    print('test func')
-    print((self.request.user.groups.filter(name = 'stuff').exists() or self.request.user.is_superuser), 'hello world')
-    # return self.request.user.groups.filter(name = 'stuff').exists() or self.request.user.is_superuser
-    return True
+    return self.request.user.groups.filter(name = 'stuff').exists() or self.request.user.is_superuser
+
   def handle_no_permission(self) -> HttpResponseRedirect:
     return HttpResponseRedirect(self.login_url)
 
