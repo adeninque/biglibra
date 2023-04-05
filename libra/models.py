@@ -30,13 +30,12 @@ class Borrow(models.Model):
 
 class Authors(models.Model):
   photo = models.ImageField('author_photos/%Y/%m/%d', default='defs/profile_default.svg')
-  slug = models.SlugField(unique=True)
   first_name = models.CharField(max_length=255)
   last_name = models.CharField(max_length=255)
 
   def get_full_name(self): return ' '.join([self.first_name, self.last_name])
 
-  def __str__(self): return self.slug
+  def __str__(self): return self.get_full_name()
   
 
 class Categories(models.Model):
