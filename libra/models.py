@@ -8,6 +8,7 @@ class Book(models.Model):
   cover = models.ImageField(upload_to='cover/%y/%m/%d')
   copies = models.IntegerField()
   authors = models.ManyToManyField('Authors')
+  cat = models.ForeignKey('Categories', on_delete=models.PROTECT, default=None)
   
   def __str__(self): return self.title
   

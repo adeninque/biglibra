@@ -1,3 +1,5 @@
+import uuid
+
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -36,5 +38,12 @@ class AddBook(MainMixin, CreateView):
     return context
   
   def form_valid(self, form: BookForm) -> HttpResponse:
-    print(form.data)
+    instance: Book = form.save(commit=False)
+    slug = instance.title.strip().lower().replace(' ', '-')
+    
+    if self.model.objects.filter(slug = slug).exists():
+      slug = f'{slug}-{str(uuid.uuid4())[:8]}'
+      
+    instance.slug = slug
+    instance.save()
     return redirect(self.success_url)
