@@ -21,9 +21,10 @@ class BorrowAdmin(admin.ModelAdmin):
   
 
 class AuthorAdmin(admin.ModelAdmin):
-  list_display = ('id', 'get_full_name', 'slug',)
+  list_display = ('id', 'get_full_name',)
   list_display_links = ('id', 'slug',)
-  search_fields = ('id', 'get_full_name', 'slug',)
+  search_fields = ('id', 'get_full_name',)
+  
   
 class CategoriesAdmin(admin.ModelAdmin):
   list_display = ('id', 'slug',)

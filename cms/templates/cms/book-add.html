@@ -1,0 +1,19 @@
+{% extends 'cms/base.html' %}
+
+{% block content %}
+
+<div class="container-md mt-3">
+  <div class="w-100 p-2 border border-secondary border-2 rounded-3">
+    <h1 class="fs-3 fw-bold" >Add Book</h1>
+    <form method="POST">
+      {% for field in form %}
+        <p>
+          <label for="{{ form.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+        </p>
+      {% endfor %}
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
