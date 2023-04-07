@@ -18,7 +18,7 @@ class StuffReqiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     return HttpResponseRedirect(self.login_url)
 
 
-class MainMixin(StuffReqiredMixin):
+class BaseCMSMixin(StuffReqiredMixin):
   def get_custom_context(self, **kwargs):
     context = kwargs
     context.update({
