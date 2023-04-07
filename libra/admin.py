@@ -5,31 +5,32 @@ from .models import (Book,
                      Categories,
                      Borrow)
 
+
 # Register your models here.
 
 class BookAdmin(admin.ModelAdmin):
-  list_display = ('id', 'title', 'copies', 'slug',)
-  list_display_links = ('id', 'title','slug',)
-  search_fields = ('title', 'id', 'slug',)
-  prepopulated_fields = {'slug': ('title',)}
-  
-  
+    list_display = ('id', 'title', 'copies', 'slug',)
+    list_display_links = ('id', 'title', 'slug',)
+    search_fields = ('title', 'id', 'slug',)
+    prepopulated_fields = {'slug': ('title',)}
+
+
 class BorrowAdmin(admin.ModelAdmin):
-  list_display = ('id', 'when', 'copies', 'status',)
-  list_display_links = ('id',)
-  search_fields = ('id', 'status',)
-  
+    list_display = ('id', 'when', 'copies', 'status',)
+    list_display_links = ('id',)
+    search_fields = ('id', 'status',)
+
 
 class AuthorAdmin(admin.ModelAdmin):
-  list_display = ('id', 'get_full_name',)
-  list_display_links = ('id', 'slug',)
-  search_fields = ('id', 'get_full_name',)
-  
-  
+    list_display = ('id', 'get_full_name',)
+    list_display_links = ('id', 'slug',)
+    search_fields = ('id', 'get_full_name',)
+
+
 class CategoriesAdmin(admin.ModelAdmin):
-  list_display = ('id', 'slug',)
-  list_display_links = ('id', 'slug',)
-  search_fields = ('id', 'slug',)
+    list_display = ('id', 'slug',)
+    list_display_links = ('id', 'slug',)
+    search_fields = ('id', 'slug',)
 
 
 admin.site.register(Book, BookAdmin)
