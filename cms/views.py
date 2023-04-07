@@ -6,16 +6,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 
-from .utils import MainMixin
+from .utils import BaseCMSMixin
 from libra.models import (
   Book,
 )
 from .forms import (
   BookForm,
 )
+from libra.views import (
+  BookListView,
+)
 
 # Create your views here.
-class Home(MainMixin, TemplateView):
+class Home(BaseCMSMixin, BookListView):
   template_name = 'cms/home.html'
   
   def get_context_data(self, **kwargs):
@@ -24,7 +27,7 @@ class Home(MainMixin, TemplateView):
     return context
   
 
-class AddBook(MainMixin, CreateView):
+class AddBook(BaseCMSMixin, CreateView):
   model = Book
   template_name = 'cms/book-add.html'
   form_class = BookForm
@@ -47,3 +50,4 @@ class AddBook(MainMixin, CreateView):
     instance.slug = slug
     instance.save()
     return redirect(self.success_url)
+
