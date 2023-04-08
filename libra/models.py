@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Count
-
+from django.urls import reverse
 
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
-    cover = models.ImageField(upload_to='cover/%y/%m/%d')
+    cover = models.ImageField(upload_to='book-cover/%y/%m/%d')
     copies = models.IntegerField()
     authors = models.ManyToManyField('Authors')
     cat = models.ForeignKey('Categories', on_delete=models.PROTECT, default=None)
@@ -16,6 +15,9 @@ class Book(models.Model):
 
     def get_copies(self):
         return self.copies - self.borrow_set.all().count()
+
+    def cms_detail_url(self):
+        return reverse('cms_book_detail', kwargs={'slug': self.slug})
 
 
 class Borrow(models.Model):
@@ -31,7 +33,7 @@ class Borrow(models.Model):
     borrower = models.ForeignKey(User, on_delete=models.PROTECT)
     book = models.ForeignKey('Book', on_delete=models.CASCADE)
 
-    def __str__(self): return ':'.join([self.borrower, self.book, self.deadline])
+    def __str__(self): return ':'.join([self.borrower.__str__(), self.book.__str__(), self.deadline])
 
 
 class Authors(models.Model):
