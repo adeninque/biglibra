@@ -4,7 +4,50 @@
 {% endblock template_style %}
 
 {% block content %}
-<div class="container-md mt-3">
-    {{ book.title }}
-</div>
+    <div class="container-md mt-3">
+        <div class="card mb-3" style="max-width: 100%">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ book.cover.url }}" class="img-fluid rounded-start" alt="..." style="width: 100%">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        {# book title #}
+                        <h3 class="card-title"><b>{{ book.title }}</b></h3>
+                        {# book authors #}
+                        <div>
+                            {# defining plural form of author #}
+                            {% if book.authors.all.count > 1 %}
+                                <p class="card-text mb-0">Authors</p>
+                                {% else %}
+                                <p class="card-text mb-0">Author</p>
+                            {% endif %}
+                            <ul class="list-group mt-1">
+                                {% comment %} Lising authors {% endcomment %}
+                                {% for author in book.authors.all %}
+                                    <li class="list-group-item">{{ author.get_full_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% comment %} book copies {% endcomment %}
+                        <p class="card-text mt-3" >Copies: <b>{{ book.get_copies }}</b></p>
+                        {% comment %} Is Available ? {% endcomment %}
+                        <p class="card-text mt-3" >Available:
+                            {% if book.get_copies %}
+                                <b>Available</b>
+                                {% else %}
+                                <b>Out of Stock</b>
+                            {% endif %}
+                        </p>
+                        {% comment %} Options Buttons {% endcomment %}
+                        <div class="btn-group w-100" role="group" aria-label="Basic example">
+                            <a type="button" class="btn btn-outline-dark" href="{{ book.get_edit_url }}">Edit</a>
+                            <a type="button" class="btn btn-outline-dark" href="#">Add Borrow</a>
+                            <a type="button" class="btn btn-outline-dark" href="#">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

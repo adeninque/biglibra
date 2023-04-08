@@ -19,6 +19,9 @@ class Book(models.Model):
     def cms_detail_url(self):
         return reverse('cms_book_detail', kwargs={'slug': self.slug})
 
+    def get_edit_url(self):
+        return reverse('cms_book_edit', kwargs={'slug': self.slug})
+
 
 class Borrow(models.Model):
     BORROWED = 'B'

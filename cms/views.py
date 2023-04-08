@@ -1,7 +1,7 @@
 import uuid
 
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, CreateView, DetailView
+from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -47,12 +47,12 @@ class AddBook(BaseCMSMixin, CreateView):
     def form_valid(self, form: BookForm) -> HttpResponse:
         instance: Book = form.save(commit=False)
         slug = instance.title.strip().lower().replace(' ', '-')
-
         if self.model.objects.filter(slug=slug).exists():
             slug = f'{slug}-{str(uuid.uuid4())[:8]}'
 
         instance.slug = slug
         instance.save()
+        form.save_m2m()
         return redirect(self.success_url)
 
 
@@ -68,3 +68,22 @@ class BookDetail(BaseCMSMixin, DetailView):
             title=context['book'].title
         ))
         return context
+
+
+class BookEdit(BaseCMSMixin, UpdateView):
+    model = Book
+    form_class = BookForm
+    template_name = 'cms/book-add.html'
+    context_object_name = 'book'
+    slug_field = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_custom_context(
+            title=' '.join(['Edit', context['book'].title])
+        ))
+        return context
+
+    def form_valid(self, form):
+        instance: Book = form.save()
+        return redirect(instance.cms_detail_url())
