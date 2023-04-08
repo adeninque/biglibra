@@ -1,7 +1,7 @@
 import uuid
 
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -54,3 +54,17 @@ class AddBook(BaseCMSMixin, CreateView):
         instance.slug = slug
         instance.save()
         return redirect(self.success_url)
+
+
+class BookDetail(BaseCMSMixin, DetailView):
+    model = Book
+    slug_field = 'slug'
+    template_name = 'cms/book-detail.html'
+    context_object_name = 'book'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_custom_context(
+            title=context['book'].title
+        ))
+        return context

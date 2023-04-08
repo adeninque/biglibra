@@ -1,11 +1,13 @@
-<a class="row m-0 p-1 rounded-3 border mt-1 text-decoration-none text-dark" role="button" href="#">
-  <div class="col-8 p-0">
-    {{ book.title }}
-  </div>
-  <div class="col-2 p-0">
-    {{ copies }}
-  </div>
-  <div class="col-2 p-0">
-    {% if available %}Available{% else %}Out of stock{% endif %}
-  </div>
+<a class="row m-0 p-1 rounded-3 border mt-1 text-decoration-none text-dark"
+   role="button"
+   href="{{ book.cms_detail_url }}">
+    <div class="col-8 p-0">
+        {{ book.title }}
+    </div>
+    <div class="col-2 p-0">
+        {{ copies }}
+    </div>
+    <div class="col-2 p-0">
+        {% if available %}Available{% else %}Out of stock{% endif %}
+    </div>
 </a>
