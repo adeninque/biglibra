@@ -1,16 +1,17 @@
 {% extends 'cms/base.html' %}
 
 {% block content %}
-    <form method="GET">
-        <input type="text" name="search-area" value="{{ search_input }}">
-        <input type="submit" value="Search">
-    </form>
+
     <div class="container text-center">
         <div class="row row-cols-2">
             {% for book in books %}
-                <div class="col">
-                    <h1>{{ book.title }}</h1>
-                    <p><a href="{% url 'book' book.slug %}">detail</a></p>
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text"></p>
+                        <a href="{% url 'book' book.slug %}" class="btn btn-primary">Detail</a>
+                    </div>
                 </div>
             {% endfor %}
         </div>

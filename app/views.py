@@ -9,6 +9,7 @@ menu = [
     {'url': 'app_home', 'name': 'About'}
 ]
 
+
 class BookHome(ListView):
     model = Book
     template_name = 'app/home.html'
