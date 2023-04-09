@@ -1,21 +1,17 @@
 import uuid
 
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.views.generic import CreateView, DetailView, UpdateView
 from django.http import HttpResponse, Http404, HttpRequest
 from django.urls import reverse_lazy
 
 from .utils import BaseCMSMixin
-from libra.models import (
-    Book,
-)
-from .forms import (
-    BookForm,
-)
-from libra.views import (
-    BookListView,
-)
+from libra.models import (Book,
+                          Borrow)
+from .forms import (BookForm,
+                    BorrowForm)
+
+from libra.views import (BookListView)
 
 
 # Create your views here.
@@ -97,7 +93,37 @@ def delete_book(request: HttpRequest, slug: str):
     except ValueError:
         raise Http404
 
-    # instance.delete()
     if request.user.is_superuser or request.user.is_staff:
         instance.delete()
     return redirect(reverse_lazy('cms_home'))
+
+
+class AddBorrow(BaseCMSMixin, CreateView):
+    model = Borrow
+    template_name = 'cms/borrow-form.html'
+    form_class = BorrowForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_custom_context(
+            title='CMS | ADD BORROW'
+        ))
+        return context
+
+    def form_valid(self, form):
+        book_slug: str | None = self.kwargs.get('slug', None)
+        book_instance: Book | None = None
+        borrow_instance: Borrow = form.save(commit=False)
+
+        if not book_slug:
+            raise Http404
+
+        try:
+            book_instance = Book.objects.get(slug=book_slug)
+        except ValueError:
+            raise Http404
+
+        borrow_instance.book = book_instance
+        borrow_instance.save()
+
+        return redirect(book_instance.cms_detail_url())

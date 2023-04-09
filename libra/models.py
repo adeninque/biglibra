@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+
 # Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=255)
@@ -28,6 +29,9 @@ class Book(models.Model):
     def get_delete_url(self):
         return self.get_slugged_url(url_name='cms_book_delete')
 
+    def get_add_borrow_url(self):
+        return self.get_slugged_url(url_name='cms_add_borrow')
+
 
 class Borrow(models.Model):
     BORROWED = 'B'
@@ -42,7 +46,7 @@ class Borrow(models.Model):
     borrower = models.ForeignKey(User, on_delete=models.PROTECT)
     book = models.ForeignKey('Book', on_delete=models.CASCADE)
 
-    def __str__(self): return ':'.join([self.borrower.__str__(), self.book.__str__(), self.deadline])
+    def __str__(self): return ' - '.join([self.borrower.__str__(), self.book.__str__(), self.deadline.strftime("%Y-%m-%d")])
 
 
 class Authors(models.Model):
