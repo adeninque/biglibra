@@ -13,14 +13,20 @@ class Book(models.Model):
 
     def __str__(self): return self.title
 
+    def get_slugged_url(self, url_name: str):
+        return reverse(viewname=url_name, kwargs={'slug': self.slug})
+
     def get_copies(self):
         return self.copies - self.borrow_set.all().count()
 
     def cms_detail_url(self):
-        return reverse('cms_book_detail', kwargs={'slug': self.slug})
+        return self.get_slugged_url(url_name='cms_book_detail')
 
     def get_edit_url(self):
-        return reverse('cms_book_edit', kwargs={'slug': self.slug})
+        return self.get_slugged_url(url_name='cms_book_edit')
+
+    def get_delete_url(self):
+        return self.get_slugged_url(url_name='cms_book_delete')
 
 
 class Borrow(models.Model):

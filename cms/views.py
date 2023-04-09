@@ -3,7 +3,7 @@ import uuid
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404, HttpRequest
 from django.urls import reverse_lazy
 
 from .utils import BaseCMSMixin
@@ -87,3 +87,17 @@ class BookEdit(BaseCMSMixin, UpdateView):
     def form_valid(self, form):
         instance: Book = form.save()
         return redirect(instance.cms_detail_url())
+
+
+def delete_book(request: HttpRequest, slug: str):
+    instance: Book | None = None
+
+    try:
+        instance = Book.objects.get(slug=slug)
+    except ValueError:
+        raise Http404
+
+    # instance.delete()
+    if request.user.is_superuser or request.user.is_staff:
+        instance.delete()
+    return redirect(reverse_lazy('cms_home'))
