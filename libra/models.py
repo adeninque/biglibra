@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -46,7 +48,31 @@ class Borrow(models.Model):
     borrower = models.ForeignKey(User, on_delete=models.PROTECT)
     book = models.ForeignKey('Book', on_delete=models.CASCADE)
 
-    def __str__(self): return ' - '.join([self.borrower.__str__(), self.book.__str__(), self.deadline.strftime("%Y-%m-%d")])
+    def __str__(self):
+        return ' - '.join([self.borrower.__str__(),
+                           self.book.__str__(),
+                           self.deadline.strftime("%Y-%m-%d")])
+
+    def get_pk_url(self, url_name: str):
+        return reverse(viewname=url_name, kwargs={'pk': self.pk})
+
+    def cms_detail_url(self):
+        return self.get_pk_url(url_name='cms_borrow_detail')
+
+    def get_edit_url(self):
+        return self.get_pk_url(url_name='cms_edit_borrow')
+
+    def get_return_url(self):
+        return self.get_pk_url(url_name='cms_edit_return')
+
+    def get_delta_time(self):
+        today = date.today()
+        delta = self.deadline - today
+        if delta.days > 0:
+            return {'label': 'Remaining', 'delta': f'{delta.days} days'}
+        elif delta.days == 0:
+            return {'label': 'Return day', 'delta': 'today'}
+        return {'label': 'Overdue', 'delta': f'{abs(delta.days)} days'}
 
 
 class Authors(models.Model):
