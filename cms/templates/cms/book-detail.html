@@ -42,7 +42,7 @@
                         {% comment %} Options Buttons {% endcomment %}
                         <div class="btn-group w-100" role="group" aria-label="Basic example">
                             <a type="button" class="btn btn-outline-dark" href="{{ book.get_edit_url }}">Edit</a>
-                            {% if book.get_copiesda %}
+                            {% if book.get_copies %}
                                 <a type="button" class="btn btn-outline-dark" href="{{ book.get_add_borrow_url }}">Add Borrow</a>
                                 {% else %}
                                 <a type="button" class="btn btn-outline-dark disabled" href="{{ book.get_add_borrow_url }}">Add Borrow</a>
@@ -68,14 +68,16 @@
                     <h1>Borrow</h1>
             {% endif %}
                 <ul class="list-group">
-                {% for borrow in book.borrow_set.all %}
+                {% for borrow in borrows %}
                     <a
                         class="list-group-item d-flex justify-content-between align-items-start"
                         type="button"
-                        href="#">
+                        href="{{ borrow.cms_detail_url }}">
                         <div class="ms-2 me-auto">
                             <div class="fw-bold">{{ borrow }}</div>
-                            Content for list item
+                            {% with borrow.get_delta_time as deltatime %}
+                                <p class="mb-1">{{ deltatime.label }}: {{ deltatime.delta }}</p>
+                            {% endwith %}
                         </div>
                     </a>
                 {% endfor %}
@@ -86,6 +88,25 @@
                 </div>
         {% endif %}
         </div>
+        {% comment %} Lost Borrows {% endcomment %}
+        {% if lost_borrows %}
+        <div>
+            <h3>Lost Borrows</h3>
+            <ul class="list-group">
+                {% for borrow in lost_borrows %}
+                    <a
+                        class="list-group-item d-flex justify-content-between align-items-start"
+                        type="button"
+                        href="{{ borrow.cms_detail_url }}">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">{{ borrow }}</div>
+                        </div>
+                    </a>
+                {% endfor %}
+                </ul>
+        </div>
+        {% endif %}
+        <div class="mb-5"></div>
     </div>
 
     {% comment %} Modal Confirmation for Delete {% endcomment %}

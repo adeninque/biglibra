@@ -5,7 +5,10 @@ from .views import (Home,
                     BookDetail,
                     BookEdit,
                     delete_book,
-                    AddBorrow)
+                    BorrowDetail,
+                    AddBorrow,
+                    BorrowEdit,
+                    return_book)
 
 
 urlpatterns = [
@@ -14,5 +17,8 @@ urlpatterns = [
     path('book/<slug:slug>', BookDetail.as_view(), name='cms_book_detail'),
     path('book/<slug:slug>/edit', BookEdit.as_view(), name='cms_book_edit'),
     path('book/<slug:slug>/delete', delete_book, name='cms_book_delete'),
+    path('borrow/<int:pk>/', BorrowDetail.as_view(), name='cms_borrow_detail'),
     path('book/<slug:slug>/addborrow/', AddBorrow.as_view(), name='cms_add_borrow'),
+    path('borrow/<int:pk>/edit', BorrowEdit.as_view(), name='cms_edit_borrow'),
+    path('borrow/<int:pk>/return', return_book, name='cms_edit_return'),
 ]

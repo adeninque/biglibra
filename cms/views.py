@@ -61,7 +61,9 @@ class BookDetail(BaseCMSMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(self.get_custom_context(
-            title=context['book'].title
+            title=context['book'].title,
+            borrows=context['book'].borrow_set.exclude(status='L').order_by('deadline'),
+            lost_borrows=context['book'].borrow_set.filter(status='L')
         ))
         return context
 
@@ -127,3 +129,51 @@ class AddBorrow(BaseCMSMixin, CreateView):
         borrow_instance.save()
 
         return redirect(book_instance.cms_detail_url())
+
+
+class BorrowDetail(BaseCMSMixin, DetailView):
+    model = Borrow
+    pk_url_kwarg = 'pk'
+    template_name = 'cms/borrow-detail.html'
+    context_object_name = 'borrow'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context['borrow'].STATUS)
+        context.update(self.get_custom_context(
+            title=context['borrow'].__str__(),
+        ))
+        return context
+
+
+class BorrowEdit(BaseCMSMixin, UpdateView):
+    model = Borrow
+    pk_url_kwarg = 'pk'
+    template_name = 'cms/borrow-form.html'
+    form_class = BorrowForm
+    context_object_name = 'borrow'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.get_custom_context(
+            title=f'EDIT | {context["borrow"].__str__()}'
+        ))
+        return context
+
+    def form_valid(self, form):
+        instance: Borrow = form.save(commit=True)
+        return redirect(instance.cms_detail_url())
+
+
+def return_book(request: HttpRequest, pk):
+    instance: Borrow | None = None
+
+    try:
+        instance = Borrow.objects.get(pk=pk)
+    except ValueError:
+        raise Http404
+
+    if request.user.is_superuser or request.user.is_staff:
+        instance.delete()
+
+    return redirect(instance.book.cms_detail_url())
