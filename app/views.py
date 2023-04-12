@@ -5,8 +5,9 @@ from django.urls import reverse_lazy
 from libra.models import Book
 # Create your views here.
 from libra.views import BookListView
+
 menu = [
-    {'url': 'app_home', 'name': 'About'}
+    {'url': 'home', 'name': 'Home'}
 ]
 
 
@@ -18,6 +19,7 @@ class BookHome(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context.update({'menu': menu})
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
             context['books'] = context['books'].filter(title__icontains=search_input)
@@ -34,3 +36,8 @@ class BookDetail(DetailView):
     model = Book
     template_name = 'app/book.html'
     context_object_name = 'book'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({'menu': menu})
+        return context
