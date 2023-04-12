@@ -13,12 +13,7 @@
             <a class="nav-link " aria-current="page" href="{% url m.url %}">{{ m.name }}</a>
           </li>
         {% endfor %}
-          <li>
-              <form method="GET">
-                <input type="text" name="search-area" value="{{ search_input }}">
-                <input type="submit" value="Search">
-              </form>
-          </li>
+
       </ul>
     </div>
   </div>

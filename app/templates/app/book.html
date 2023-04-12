@@ -2,6 +2,23 @@
 
 
 {% block content %}
-    <h1>Book: {{ book.title }}</h1>
-    <h1>Author: {{ book.authors }}</h1>
+<div class="container text-center">
+    <div class="row">
+        <div class="col-sm-4">
+            <img src="{{ book.cover.url }}" alt="cover" width="80%" height="95%">
+        </div>
+        <div class="col-sm-8" style="text-align: justify">
+            <div class="title">
+                <h5 style="font-weight: bold">{{ book.title }}</h5>
+            </div>
+            <div class="author">
+                {% for author in book.authors.all %}
+                {{ author }}
+                {% endfor %}
+            </div>
+            <p>            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem deserunt harum odio recusandae ut? A aliquam, animi aperiam incidunt iure labore laboriosam quidem reprehenderit veritatis! Dolorem eaque, hic modi mollitia officiis pariatur provident quos. Ab alias aliquam architecto cupiditate distinctio ea fugiat id inventore iste, iure, maxime molestias mollitia omnis perferendis quia quidem quisquam similique tempore unde ut. Ad adipisci explicabo minus mollitia placeat quam sunt. Ad aut dolor dolorem eius error et eveniet illo, minus, natus nesciunt officiis sint tempora voluptate? Adipisci alias dignissimos ex illo laboriosam nihil, odio officia omnis quaerat quas quasi quia quis recusandae saepe vitae! Delectus esse eveniet ipsam mollitia praesentium. Aliquid autem consequuntur, enim expedita impedit inventore iusto magnam maiores nesciunt provident quae quas quia quidem quod recusandae velit vero. Ab adipisci blanditiis dicta eligendi est molestiae quisquam. Accusamus at autem corporis cum cumque dolores doloribus dolorum eaque est eum eveniet, facere illum inventore labore maiores natus neque nisi nostrum officia possimus quia reprehenderit soluta temporibus ullam vero. Aliquid aspernatur commodi cum et facilis fugit maiores quas quisquam sed vel? Ab adipisci, assumenda consectetur cumque dicta dolor dolorum itaque laboriosam molestiae nemo nobis nostrum obcaecati quos saepe ullam vel voluptate. Architecto dolor illo totam!</p>
+            <input type="submit" value="Borrow">
+        </div>
+    </div>
+
 {% endblock content %}

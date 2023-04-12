@@ -1,21 +1,27 @@
 {% extends 'cms/base.html' %}
 
 {% block content %}
-
     <div class="container text-center">
-        <div class="row row-cols-2">
+        <div class="row row-cols-1 row-cols-3 g-4 my-0">
             {% for book in books %}
                 <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
+                    <img src="{{ book.cover.url }}" class="card-img-top" alt="..." style="height: 80%">
+                    <div class="card-body p-3">
                         <h5 class="card-title">{{ book.title }}</h5>
-                        <p class="card-text"></p>
+                        <p class="card-text">
+                            {% for author in book.authors.all %}
+                                {{ author }}
+                            {% endfor %}
+                        </p>
                         <a href="{% url 'book' book.slug %}" class="btn btn-primary">Detail</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-
-
 {% endblock content %}
+
+
+
+
+
