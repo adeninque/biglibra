@@ -21,7 +21,8 @@ from .settings import MEDIA_ROOT, MEDIA_URL, DEBUG
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cms/', include('cms.urls')),
-    path('', include('app.urls'))
+    path('', include('app.urls')),
+    path('auth/', include('accounts.urls'))
 ]
 
 if DEBUG:

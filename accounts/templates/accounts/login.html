@@ -1,0 +1,57 @@
+{% extends 'accounts/base.html' %}
+
+{% block template_style %}
+    <style>
+        .form {
+            background: #f9f9f9;
+            padding: 1rem;
+        }
+
+        .form__field {
+            margin: 0 0 1rem 0;
+        }
+
+        .form__btn {
+            padding: .5rem 1rem;
+            font-size: 1rem;
+            background: lightblue;
+            border: 1px lightblue solid;
+            transition: all .4s ease-out;
+        }
+
+        .form__btn:hover {
+            background: white;
+            border: 1px black solid;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+        .field label {
+            margin: 0 0 .2rem 0;
+        }
+
+        .field input {
+            padding: .2rem .3rem;
+            font-size: 1rem;
+        }
+    </style>
+{% endblock template_style %}
+
+{% block content %}
+    <div class="">
+        <div class="container">
+            <form class="form" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    <p class="form__field field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                    </p>
+                {% endfor %}
+                <button class="form__btn">Log In</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
