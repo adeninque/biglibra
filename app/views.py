@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from libra.models import Book
 # Create your views here.
-
+from libra.views import BookListView
 menu = [
     {'url': 'app_home', 'name': 'About'}
 ]
@@ -24,10 +24,13 @@ class BookHome(ListView):
         context['search_input'] = search_input
         return context
 
+    def get_queryset(self, *args, **kwargs):
+        qs = super(BookHome, self).get_queryset(*args, **kwargs)
+        qs = qs.order_by("-id")
+        return qs
+
 
 class BookDetail(DetailView):
     model = Book
     template_name = 'app/book.html'
     context_object_name = 'book'
-
-
