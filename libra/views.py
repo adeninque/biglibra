@@ -7,7 +7,7 @@ from .models import (Book)
 # Create your views here.
 class BookListView(ListView):
     model = Book
-    paginate_by = 2
+    paginate_by = 10
     context_object_name = 'books'
 
     def get_queryset(self):
