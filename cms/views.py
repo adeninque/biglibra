@@ -1,7 +1,8 @@
 import uuid
 
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 from django.http import HttpResponse, Http404, HttpRequest
 from django.urls import reverse_lazy
 
@@ -174,3 +175,18 @@ def return_book(request: HttpRequest, pk):
         instance.delete()
 
     return redirect(instance.book.cms_detail_url())
+
+
+class CustomersList(BaseCMSMixin, ListView):
+    model = User
+    template_name = 'cms/customers-list.html'
+    context_object_name = 'users'
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context.update(self.get_custom_context(
+            title='Customers'
+        ))
+
+        return context
