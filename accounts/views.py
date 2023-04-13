@@ -13,4 +13,4 @@ class Login(LoginView):
             return "/admin"
         elif user.is_staff:
             return reverse_lazy('cms_home')
-        return self.success_url
+        return super().get_success_url()

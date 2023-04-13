@@ -48,6 +48,10 @@
                     <p class="form__field field">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         {{ field }}
+                        {% if field.errors %}
+                            {{ field.errors }}
+                            error
+                        {% endif %} 
                     </p>
                 {% endfor %}
                 <button class="form__btn">Log In</button>

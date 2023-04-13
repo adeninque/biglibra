@@ -3,8 +3,8 @@
 {% load cms_tags %}
 
 {% block content %}
-    <div class="container-md mt-3">
-        <!-- Add Book Button -->
+    <div class="container-md my-5">
+        {% comment %} Search Form {% endcomment %}
         <form method="get">
             <div class="input-group mb-2">
                 <input class="form-control" type="search" name="q" placeholder="what book are you looking for ?">
@@ -13,6 +13,7 @@
             <!-- hidden input with value q from GET, to not lose page on redirect -->
             <input type="hidden" name="page" value="{{ page_obj.number }}">
         </form>
+        <!-- Add Book Button -->
         <a class="btn btn-primary w-100 fs-4 text-uppercase fw-bold" href="{% url 'cms_add_book' %}">Add Book</a>
 
         <!-- Checking if book queryset is not empty  -->

@@ -11,7 +11,7 @@ menu = [
 ]
 
 
-class BookHome(ListView):
+class BookHome(BookListView):
     model = Book
     template_name = 'app/home.html'
     context_object_name = 'books'

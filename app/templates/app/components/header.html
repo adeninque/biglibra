@@ -8,19 +8,20 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% for m in menu %}
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="{% url m.url %}">{{ m.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
-            <ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search-area">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </ul>
+            <div class="text-white">
+                {% if request.user.is_authenticated %}
+                    {{ request.user }}
+                {% else %}
+                    Login
+                {% endif %}
+            </div>
         </div>
     </div>
 </nav>
