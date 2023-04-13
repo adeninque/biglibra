@@ -9,7 +9,8 @@ from .views import (Home,
                     AddBorrow,
                     BorrowEdit,
                     return_book,
-                    CustomersList)
+                    CustomersList,
+                    CustomerCreate)
 
 
 urlpatterns = [
@@ -22,5 +23,6 @@ urlpatterns = [
     path('book/<slug:slug>/addborrow/', AddBorrow.as_view(), name='cms_add_borrow'),
     path('borrow/<int:pk>/edit/', BorrowEdit.as_view(), name='cms_edit_borrow'),
     path('borrow/<int:pk>/return/', return_book, name='cms_edit_return'),
-    path('customers/', CustomersList.as_view(), name='cms_customers_list')
+    path('customers/', CustomersList.as_view(), name='cms_customers_list'),
+    path('customers/create/', CustomerCreate.as_view(), name='cms_customers_create'),
 ]

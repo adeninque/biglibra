@@ -14,14 +14,14 @@
             <!-- hidden input with value q from GET, to not lose page on redirect -->
             <input type="hidden" name="page" value="{{ page_obj.number }}">
         </form>
-        <a class="btn btn-primary w-100 fs-4 text-uppercase fw-bold" href="#">Add Customer</a>
+        <a class="btn btn-primary w-100 fs-4 text-uppercase fw-bold" href="{% url 'cms_customers_create' %}">Add Customer</a>
 
         {% comment %} Listing Users {% endcomment %}
         <div class="mt-3">
             {% if users %}
                 <ul class="list-group">
                     {% for user in users %}
-                        <a type="button" class="list-group-item">{{ user }}</a>
+                        <a type="button" class="list-group-item" href="#">{{ user }}</a>
                     {% endfor %}
                 </ul>
             {% else %}
