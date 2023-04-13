@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 
 menu = [
     {'url': 'cms_home', 'name': 'Books'},
-    {'url': 'cms_home', 'name': 'Customers'}
+    {'url': 'cms_customers_list', 'name': 'Customers'}
 ]
 
 

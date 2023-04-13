@@ -1,7 +1,11 @@
 import uuid
 
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.shortcuts import redirect
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, ListView
 from django.http import HttpResponse, Http404, HttpRequest
 from django.urls import reverse_lazy
 
@@ -9,7 +13,8 @@ from .utils import BaseCMSMixin
 from libra.models import (Book,
                           Borrow)
 from .forms import (BookForm,
-                    BorrowForm)
+                    BorrowForm,
+                    CustomerCreationForm)
 
 from libra.views import (BookListView)
 
@@ -174,3 +179,41 @@ def return_book(request: HttpRequest, pk):
         instance.delete()
 
     return redirect(instance.book.cms_detail_url())
+
+
+class CustomersList(BaseCMSMixin, ListView):
+    model = User
+    template_name = 'cms/customers-list.html'
+    context_object_name = 'users'
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context.update(self.get_custom_context(
+            title='Customers'
+        ))
+
+        return context
+
+
+class CustomerCreate(BaseCMSMixin, CreateView):
+    form_class = CustomerCreationForm
+    template_name = 'cms/customer-create.html'
+    success_url = reverse_lazy('cms_customers_list')
+
+    def form_valid(self, form):
+        password = User.objects.make_random_password()
+        customer: User = form.save(commit=False)
+        customer.password = make_password(password)
+        customer.save()
+        
+        template = render_to_string('cms/email/temporary-password.html', {'user': customer,
+                                                                          'password': password})
+        msg = EmailMultiAlternatives(subject='[BigLibra] Registration',
+                                     body=template,
+                                     from_email='noreplay@noreplay.com',
+                                     to=[customer.email])
+        msg.attach_alternative(template, 'text/html')
+        msg.send()
+
+        return redirect(self.success_url)

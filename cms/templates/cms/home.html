@@ -32,30 +32,8 @@
                 {% endfor %}
             </div>
 
-            <!-- Pagination -->
-            {% if page_obj.paginator.num_pages <= 1 %}
-                <p class="mt-5 border-top">Only one page</p>
-            {% else %}
-                <nav class="mt-5 d-flex border-top">
-                    <p class="p-2 d-inline-block m-0 border rounded-3">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                    </p>
-                    <form method="GET" class="d-flex ms-1 px-2">
-                        <!-- hidden input whith value q from GET, to not lose query on redirect -->
-                        <input type="hidden"
-                               value="{{ request.GET.q }}"
-                               name="q">
-                        <input
-                                type="number"
-                                class="form-control"
-                                placeholder="Page"
-                                max={{ page_obj.paginator.num_pages }}
-                                        min=1
-                                name="page">
-                        <button type="submit" class="btn btn-primary">Go</button>
-                    </form>
-                </nav>
-            {% endif %}
+            {% include 'cms/components/paginator.html' %}
+
         <!-- Else book queryset is empty show this -->
         {% else %}
             <div class="alert alert-dark mt-3" role="alert">
