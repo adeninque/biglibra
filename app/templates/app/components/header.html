@@ -15,12 +15,15 @@
                     </li>
                 {% endfor %}
             </ul>
+        {% if request.path == '/' %}
             <ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search-area">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                <div class="input-group mt-3">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                           aria-describedby="search-addon"/>
+                    <button type="button" class="btn btn-outline-primary">search</button>
+                </div>
             </ul>
+        {% endif %}
         </div>
     </div>
 </nav>
