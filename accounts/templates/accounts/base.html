@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+
+    <style>
+        body {
+            height: 100%;
+            font-family: "Arial", serif;
+            font-size: 16px;
+        }
+
+        .wrapper {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fs {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fs > * {
+            flex: 1 1 auto;
+        }
+
+        .container {
+            max-width: calc(550px + 2rem);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            position: absolute;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+        }
+
+    </style>
+
+    {% block template_style %}
+    {% endblock %}
+
+</head>
+<body>
+    <a href="/" class="logo">BIGLIGRA</a>
+
+    <div class="wrapper">
+        <div class="fs">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

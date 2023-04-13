@@ -23,9 +23,6 @@ class Home(BaseCMSMixin, BookListView):
         context.update(self.get_custom_context())
         return context
 
-    def get_queryset(self):
-        return self.model.objects.order_by('pk').reverse()
-
 
 class AddBook(BaseCMSMixin, CreateView):
     model = Book
