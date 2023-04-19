@@ -19,7 +19,7 @@
                 {% if request.user.is_authenticated %}
                     {{ request.user }}
                 {% else %}
-                    Login
+                    <a href="{% url 'accounts_login' %}">Login</a>
                 {% endif %}
             </div>
         </div>

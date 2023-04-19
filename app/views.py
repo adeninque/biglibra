@@ -7,7 +7,7 @@ from libra.models import Book
 from libra.views import BookListView
 
 menu = [
-    {'url': 'home', 'name': 'Home'}
+
 ]
 
 
@@ -30,3 +30,5 @@ class BookDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context.update({'menu': menu})
         return context
+
+
