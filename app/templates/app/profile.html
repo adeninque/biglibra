@@ -8,6 +8,10 @@
             <li class="list-group-item">Email: {{ user.email }}</li>
             <li class="list-group-item">Data joined: {{ user.date_joined }}</li>
         </ul>
+        {% if user == request.user %}
+            <a class="btn-primary p-2 text-decoration-none mt-2" type="button" href="{% url 'accounts_reset' %}">Reset
+                Password</a>
+        {% endif %}
     </div>
 
     <div class="container-md mt-4">

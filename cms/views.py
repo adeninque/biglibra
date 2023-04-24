@@ -195,6 +195,9 @@ class CustomersList(BaseCMSMixin, ListView):
 
         return context
 
+    def get_queryset(self):
+        return User.objects.exclude(is_staff=True)
+
 
 class CustomerCreate(BaseCMSMixin, CreateView):
     form_class = CustomerCreationForm

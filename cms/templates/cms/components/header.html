@@ -15,9 +15,7 @@
                     </li>
                 {% endfor %}
             </ul>
-            <div class="text-white">
-                {{ request.user.username }}
-            </div>
+            {% include 'components/profile-innav.html' %}
         </div>
     </div>
 </nav>
