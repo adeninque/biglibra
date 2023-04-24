@@ -17,9 +17,9 @@
             </ul>
             <div class="text-white">
                 {% if request.user.is_authenticated %}
-                    {{ request.user }}
+                    <a href="{% url 'profile' slug=request.user.username %}">{{ request.user }}</a>
                 {% else %}
-                    Login
+                    <a href="{% url 'accounts_login' %}">Login</a>
                 {% endif %}
             </div>
         </div>
